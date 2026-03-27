@@ -1,0 +1,12 @@
+{
+  "name": "audio-book-player",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "frontend/packages/*",
+    "frontend/shared"
+  ],
+  "scripts": {
+    "install:all": "npm install --workspaces"
+  }
+}

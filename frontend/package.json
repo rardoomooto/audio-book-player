@@ -1,0 +1,22 @@
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.0",
+  "workspaces": [
+    "packages/*",
+    "shared"
+  ],
+  "scripts": {
+    "lint": "eslint --ext .ts,.tsx,.js,.jsx frontend/**",
+    "format": "prettier --write '**/*.{ts,tsx,js,json,css,md}'",
+    "build": "echo \"Use per-package build scripts.\"",
+    "test:e2e": "playwright test",
+    "test": "echo \"Unit tests are run per package.\""
+  },
+  "devDependencies": {
+    "eslint": "^8.54.0",
+    "@typescript-eslint/parser": "^5.59.0",
+    "@typescript-eslint/eslint-plugin": "^5.59.0",
+    "prettier": "^3.0.0"
+  }
+}

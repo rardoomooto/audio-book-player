@@ -1,0 +1,13 @@
+{
+  "name": "frontend-shared",
+  "private": true,
+  "version": "0.0.1",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "lint": "echo 'Run lint in per-package dirs'"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}
