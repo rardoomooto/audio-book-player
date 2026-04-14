@@ -1,0 +1,4 @@
+.stats-card { background: #fff; border-radius: 12px; padding: 12px; border: 1px solid #eee; }
+.stats-card__header { display: flex; justify-content: space-between; align-items: baseline; }
+.stats-card__title { font-size: 13px; color: #555; }
+.stats-card__value { font-size: 18px; font-weight: 700; }
