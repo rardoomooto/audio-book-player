@@ -6,13 +6,13 @@ from pydantic import BaseModel, EmailStr
 from jose import jwt, JWTError
 from fastapi.security import OAuth2PasswordRequestForm
 
-from ..services.auth import authenticate_user, create_token_pair, get_user_by_username
-from ..api.deps import get_current_active_user, get_current_admin_user
-from ..core.config import get_settings
-from ..core.security import oauth2_scheme
-from ..core.security import create_access_token
-from ..schemas.token import TokenPair as TokenPairModel
-from ..schemas.token import Token as TokenModel
+from ...services.auth import authenticate_user, create_token_pair, get_user_by_username
+from ...api.deps import get_current_active_user, get_current_admin_user
+from ...core.config import get_settings
+from ...core.security import oauth2_scheme
+from ...core.security import create_access_token
+from ...schemas.token import TokenPair as TokenPairModel
+from ...schemas.token import Token as TokenModel
 
 router = APIRouter()
 
@@ -51,7 +51,9 @@ def refresh(req: RefreshRequest):
         payload = jwt.decode(req.refresh_token, settings.jwt_secret_key, algorithms=[settings.jwt_algorithm])
         if payload.get("type") != "refresh":
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token type")
-        username = payload.get("sub")
+        username: str = payload.get("sub") or ""
+        if not username:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token payload")
         user = get_user_by_username(username)
         if not user:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid user")
@@ -73,8 +75,10 @@ def logout(token: Optional[str] = Depends(oauth2_scheme)):
         payload = jwt.decode(token, settings.jwt_secret_key, algorithms=[settings.jwt_algorithm])
         jti = payload.get("jti")
         if jti:
-            from ..services.token_blacklist import blacklist_token
-            blacklist_token(jti, int(payload.get("exp").timestamp()) if payload.get("exp") else 0)
+            from ...services.token_blacklist import blacklist_token
+            exp_ts = payload.get("exp")
+            exp_timestamp = int(exp_ts.timestamp()) if hasattr(exp_ts, 'timestamp') else int(exp_ts) if exp_ts else 0
+            blacklist_token(jti, exp_timestamp)
     except JWTError:
         pass
     return {"detail": "Logged out"}

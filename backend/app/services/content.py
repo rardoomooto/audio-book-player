@@ -92,9 +92,15 @@ def list_contents(
     if max_duration is not None:
         items = [c for c in items if c.get("duration_seconds", 0) <= max_duration]
     
-    # 排序
+    # 排序 - 使用安全的key函数处理None值
     reverse = (order or "asc").lower() == "desc"
-    items.sort(key=lambda x: x.get(sort_by, None), reverse=reverse)
+    def sort_key(x: Dict) -> Any:
+        val = x.get(sort_by)
+        # 对None值和字符串进行安全排序
+        if val is None:
+            return ""
+        return val
+    items.sort(key=sort_key, reverse=reverse)
     
     # 分页
     total = len(items)

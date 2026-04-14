@@ -23,3 +23,7 @@ async def get_current_admin_user(current_user: Dict = Depends(get_current_active
     if not current_user.get("is_admin", False):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not enough privileges")
     return current_user
+
+
+# Alias for backward compatibility
+get_current_admin = get_current_admin_user

@@ -43,7 +43,7 @@ class UserService:
 
     def get_users(self) -> List[Dict]:
         # Return sanitized dicts (exclude password_hash)
-        return [self._sanitize(u) for u in self._users.values()]
+        return [self._sanitize(u) for u in self._users.values() if u is not None]
 
     def get_user(self, user_id: int) -> Optional[Dict]:
         u = self._users.get(user_id)
@@ -51,7 +51,7 @@ class UserService:
 
     def get_user_by_username(self, username: str) -> Optional[Dict]:
         for u in self._users.values():
-            if u["username"] == username:
+            if u and u["username"] == username:
                 return self._sanitize(u)
         return None
 

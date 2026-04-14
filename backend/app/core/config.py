@@ -48,8 +48,8 @@ WEBDAV_KEY_PATH_ENV = os.getenv("WEBDAV_KEY_PATH")
 WEBDAV_PROXY_URL_ENV = os.getenv("WEBDAV_PROXY_URL")
 WEBDAV_PROXY_USERNAME_ENV = os.getenv("WEBDAV_PROXY_USERNAME")
 WEBDAV_PROXY_PASSWORD_ENV = os.getenv("WEBDAV_PROXY_PASSWORD")
-WEBDAV_RECV_SPEED_ENV = int(os.getenv("WEBDAV_RECV_SPEED")) if os.getenv("WEBDAV_RECV_SPEED") else None
-WEBDAV_SEND_SPEED_ENV = int(os.getenv("WEBDAV_SEND_SPEED")) if os.getenv("WEBDAV_SEND_SPEED") else None
+WEBDAV_RECV_SPEED_ENV: Optional[int] = int(os.getenv("WEBDAV_RECV_SPEED")) if os.getenv("WEBDAV_RECV_SPEED") else None
+WEBDAV_SEND_SPEED_ENV: Optional[int] = int(os.getenv("WEBDAV_SEND_SPEED")) if os.getenv("WEBDAV_SEND_SPEED") else None
 WEBDAV_VERBOSE_ENV = os.getenv("WEBDAV_VERBOSE", "false").lower() == "true"
 WEBDAV_DISABLE_CHECK_ENV = os.getenv("WEBDAV_DISABLE_CHECK", "false").lower() == "true"
 

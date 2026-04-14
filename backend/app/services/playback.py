@@ -256,15 +256,17 @@ class PlaybackService:
             self._limits[user_id] = limit
             logger.info(f"更新用户播放限制: 用户={user_id}, 每日={daily_minutes}分钟")
     
-    def get_play_limit(self, user_id: str) -> Dict[str, Any]:
+    def get_play_limit(self, user_id: Optional[str]) -> Dict[str, Any]:
         """获取用户播放限制。
-        
+
         Args:
-            user_id: 用户ID
-            
+            user_id: 用户ID，None表示获取全局限制
+
         Returns:
             Dict[str, Any]: 播放限制信息
         """
+        if user_id is None:
+            return self._limit_to_dict(self._global_limit)
         user_limit = self._limits.get(user_id)
         if user_limit:
             return self._limit_to_dict(user_limit)

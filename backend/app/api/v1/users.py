@@ -5,11 +5,11 @@ from pydantic import BaseModel, EmailStr
 from jose import JWTError, jwt
 from fastapi.security import OAuth2PasswordBearer
 
-from backend.app.api.deps import get_current_admin
-from backend.app.schemas.user import User, UserCreate, UserUpdate
-from backend.app.services.user import get_user_service
-from backend.app.core.config import get_settings
-from backend.app.utils.user import verify_password
+from ..deps import get_current_admin_user
+from ...schemas.user import User, UserCreate, UserUpdate
+from ...services.user import get_user_service
+from ...core.config import get_settings
+from ...utils.user import verify_password
 
 router = APIRouter()
 
@@ -90,7 +90,9 @@ def create_user(user_in: UserIn, current_admin: dict = Depends(_admin_required))
         password=user_in.password,
         is_admin=user_in.is_admin,
     ))
-    return UserOut(**created, created_at=created.get("created_at"), updated_at=created.get("updated_at"))
+    created_at = created.get("created_at") or datetime.utcnow()
+    updated_at = created.get("updated_at") or datetime.utcnow()
+    return UserOut(**created, created_at=created_at, updated_at=updated_at)
 
 
 @router.get("/{user_id}")

@@ -38,3 +38,8 @@ Thumbs.db
 .Trash-*/
 .*swp
 *.swo
+
+# Agent 相关
+.sisyphus/
+session-*.md
+nul

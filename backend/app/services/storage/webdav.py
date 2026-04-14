@@ -131,43 +131,17 @@ class WebDAVStorage(StorageBase):
         try:
             entries = self.client.list(path)
         except RemoteResourceNotFound:
-            # 路径不存在，返回空列表
             return items
         except NotFound:
-            # 路径不存在，返回空列表
             return items
         except ConnectionException as e:
             raise StorageConnectionError(str(e), self.url)
         except NoConnection as e:
             raise StorageConnectionError(str(e), self.url)
         except WebDavException as e:
-            # 其他WebDAV错误，尝试作为文件处理
-            if self.file_exists(path):
-                md = self.get_metadata(path)
-                items.append(
-                    FileInfo(
-                        name=os.path.basename(path),
-                        path=path,
-                        size=md.duration or 0,
-                        mtime=0,
-                        is_dir=False,
-                    )
-                )
-            return items
+            raise handle_storage_exception(e, "list_files", path)
         except Exception as e:
-            # 其他异常，尝试作为文件处理
-            if self.file_exists(path):
-                md = self.get_metadata(path)
-                items.append(
-                    FileInfo(
-                        name=os.path.basename(path),
-                        path=path,
-                        size=md.duration or 0,
-                        mtime=0,
-                        is_dir=False,
-                    )
-                )
-            return items
+            raise handle_storage_exception(e, "list_files", path)
 
         for name in entries:
             item_path = path.rstrip("/") + "/" + name
@@ -175,11 +149,9 @@ class WebDAVStorage(StorageBase):
                 info = self.client.info(item_path)
                 size = int(info.get("content-length") or info.get("size") or 0)
                 mtime = info.get("last-modified") or 0
-            except Exception as e:
-                # 记录警告但继续处理
+            except Exception:
                 size = 0
                 mtime = 0
-            # Heuristic: directories might be indicated by trailing '/'
             is_dir = False
             try:
                 if isinstance(entries, list) and name.endswith("/"):

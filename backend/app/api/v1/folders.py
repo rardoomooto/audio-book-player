@@ -29,7 +29,7 @@ from ...services.folder import (
     delete_folder,
     folder_contents,
 )
-from .deps import get_current_user
+from ...api.deps import get_current_user
 
 
 @router.get("/")
