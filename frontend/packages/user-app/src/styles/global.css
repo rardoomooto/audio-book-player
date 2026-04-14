@@ -1,0 +1,18 @@
+/* Global minimal styles to support new Stats UI */
+:root {
+  --bg: #f8f9fa;
+  --card: #ffffff;
+}
+html, body, #root {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: #333;
+}
+.site-header { padding: 16px; background: #ffffff; border-bottom: 1px solid #eee; }
+.site-header h1 { margin: 0; font-size: 20px; }
+.site-footer { padding: 12px; text-align: center; color: #888; border-top: 1px solid #eee; background: #fff; }
+.stats-page { padding: 20px; }
