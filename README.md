@@ -26,16 +26,16 @@
 Mermaid 架构图
 ```mermaid
 graph TD
-  UI_User[User Frontend - User App (React TS)]
-  UI_Admin[Admin Frontend - Admin App (React TS)]
-  API[Backend - FastAPI] 
-  DB[(PostgreSQL)]
-  STORAGE[Storage Abstraction Layer]
-  WEBDAV[WebDAV / NAS]
-  CHARTS[Chart.js / ECharts]
-  Svc[Business Logic & Services]
-  API_DOCS[OpenAPI Docs]
-  TESTS[pytest & httpx (Back-end), Playwright (E2E)]
+  UI_User["User Frontend - User App (React TS)"]
+  UI_Admin["Admin Frontend - Admin App (React TS)"]
+  API["Backend - FastAPI"]
+  DB["(PostgreSQL)"]
+  STORAGE["Storage Abstraction Layer"]
+  WEBDAV["WebDAV / NAS"]
+  CHARTS["Chart.js / ECharts"]
+  Svc["Business Logic & Services"]
+  API_DOCS["OpenAPI Docs"]
+  TESTS["pytest & httpx (Back-end), Playwright (E2E)"]
 
   UI_User --> API
   UI_Admin --> API
